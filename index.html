@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>React PHP Applications - A quick overview on component design strategies</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="node_modules/reveal.js/css/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
+
+    <!--[if lt IE 9]>
+    <script src="node_modules/reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section>
+            <section>
+                <h1>React PHP Applications</h1>
+                <h3>
+                    A quick overview on component design strategies
+                </h3>
+            </section>
+
+            <section>
+                <h2>
+                    Níckolas Daniel da Silva
+                </h2>
+                <div style="display: flex;">
+                    <div style="flex: 1;">
+                        <img data-src="http://www.nawarian.xyz/images/nawarian.jpg" style="width: 4.6em;">
+                    </div>
+                    <div>
+                        <ul>
+                            <li>
+                                Software Engineer
+                            </li>
+                            <li>
+                                Fullstack development
+                            </li>
+                            <li>
+                                ResearchGate
+                            </li>
+                            <li>
+                                I really like PHP <3
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <small style="margin-top: 3em;">
+                    <a href="http://nawarian.xyz" target="_new">
+                        http://nawarian.xyz
+                    </a>
+                    |
+                    <a href="http://github.com/nawarian" target="_new">
+                        http://github.com/nawarian
+                    </a>
+                    |
+                    <a href="http://phpsp.org.br" target="_new">
+                        http://phpsp.org.br
+                    </a>
+                </small>
+            </section>
+            <section>
+                <h2>
+                    Expect...
+                </h2>
+                <ul>
+                    <li class="fragment">
+                        PHP
+                    </li>
+                    <li class="fragment">
+                        Design <strong>and</strong> Patterns
+                    </li>
+                    <li class="fragment">
+                        An incredibly complicated Hello World application
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <h2 class="fragment">React</h2>
+            <h2 class="fragment">PHP</h2>
+            <h2 class="fragment">Dafuq?</h2>
+        </section>
+
+        <section>
+            <ul>
+                <li class="fragment">
+                    Not React JS + PHP
+                </li>
+                <li class="fragment">
+                    PHP Library, released in 2012
+                </li>
+                <li class="fragment">
+                    Asynchronous PHP
+                </li>
+                <li class="fragment">
+                    Native or w/ Extensions
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>
+                React PHP
+            </h2>
+            <ul>
+                <li class="fragment">
+                    Copy of the Node.js API
+                </li>
+                <li class="fragment">
+                    Extensible Event Loop
+                </li>
+                <li class="fragment">
+                    Single Threaded
+                </li>
+                <li class="fragment">
+                    Has competitors: Icicle IO, AMP...
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>
+                Attention!
+            </h3>
+            <h2>That's still PHP</h2>
+            <p>
+                Most of its functions are synchronous and blocking <br>
+                <strong>by default</strong>
+            </p>
+        </section>
+
+        <section>
+            <section>
+                <h2>
+                    How does it look like?
+                </h2>
+                <pre><code class="hljs">$loop = EventLoopFactory::create();
+
+$loop->addTimer(1, function () {
+    echo 'Hello Reactive World!';
+});
+
+$loop->run();
+</code></pre>
+            </section>
+
+            <section>
+                <section>
+                    <h2>But why?</h2>
+                    <ul>
+                        <li class="fragment">PHP is versatile</li>
+                        <li class="fragment">You probably already know it</li>
+                        <li class="fragment">Extensible</li>
+                        <li class="fragment">Existent codebase</li>
+                        <li class="fragment">and also...</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <video src="cpu-breakdance.mp4" loop="true" autoplay controls width="100%"></video>
+            </section>
+            <section>
+                <h2>
+                    How it <u>shouldn't</u> look like!
+                </h2>
+                <pre><code class="hljs">$loop = EventLoopFactory::create();
+
+$loop->addTimer(1, function () {
+    fwrite(STDOUT, 'Hello world!'); // NOOOOO
+});
+
+$loop->run();</code></pre>
+            </section>
+        </section>
+
+        <section>
+            <h2>
+                Behold!!
+            </h2>
+            <p>
+                <strong>[Code]</strong>The most overcomplicated <strong>Hello World</strong>!<strong>[/Code]</strong>
+            </p>
+        </section>
+
+        <section>
+            <section>
+                <h2>
+                    Ermm...
+                </h2>
+                <p>
+                    Looks quite messy, right?
+                </p>
+            </section>
+            <section>
+                <h2>Let's fix this whole mess!</h2>
+                <pre class="fragment"><code class="hljs">const express = require('express')
+const app = express()
+
+app.get('/', function (req, res) {
+  res.send('Hello world!')
+})
+
+app.listen(8080)</code></pre>
+                <p class="fragment">
+                    I'm clearly joking :P
+                </p>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Request Handlers</h2>
+                <p>
+                    This is an easy win to isolate your components
+                </p>
+                <pre><code class="hljs">class SayHello
+{
+    public function __invoke(Request $req)
+    {
+        $res = new Response(200);
+        $name = $req->getQueryParams()['name'];
+        $res->getBody()->write("Hello {$name}!");
+
+        return $res;
+    }
+}</code></pre>
+            </section>
+            <section>
+                <h1>BUT!</h1>
+                <p>
+                    It is still synchronous. <br> Notice how it returns response immediately!
+                </p>
+                <pre><code class="hljs">class SayHello
+{
+    public function __invoke(Request $req)
+    {
+        $res = new Response(200);
+        $name = $req->getQueryParams()['name'];
+        $res->getBody()->write("Hello {$name}!");
+
+        return $res; // Pretty damn sync
+    }
+}</code></pre>
+            </section>
+            <section>
+                <h2>Add promises then!</h2>
+                <pre><code class="hljs">class SayHello
+{
+    public function __invoke(Request $req)
+    {
+        return new P\Promise(function ($resolve) use ($req) {
+            $res = new Response(200);
+            $name = $req->getQueryParams()['name'];
+            $res->getBody()->write("Hello {$name}!");
+
+            return $resolve($res);
+        });
+    }
+}</code></pre>
+            </section>
+            <section>
+                <h2>
+                    Decoupling...
+                </h2>
+                <p>
+                    What do the handlers handle?
+                </p>
+                <strong class="fragment">Commands!</strong>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>The command pattern</h2>
+                <ul>
+                    <li>
+                        Object-oriented callback
+                    </li>
+                    <li>
+                        Encapsulate a request as an object
+                    </li>
+                    <li>
+                        Let the handler be free
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>From the previous example...</h2>
+                <pre><code class="hljs">/**
+ * @param Psr\Http\Message\ServerRequestInterface $req
+ * @return P\Promise
+ */
+public function __invoke(Request $req)
+{
+    return new P\Promise(function ($resolve) use ($req) {
+        $res = new Response(200);
+        $name = $req->getQueryParams()['name'];
+        $res->getBody()->write("Hello {$name}!");
+
+        return $resolve($res);
+    });
+}</code></pre>
+            </section>
+            <section>
+                <h2 style="text-transform: none;">Create a SayHelloCommand</h2>
+                <pre><code class="hljs">class SayHelloCommand
+{
+    private $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+}</code></pre>
+            </section>
+            <section>
+                <h2>Refactor the handler</h2>
+                <ul>
+                    <li>Command class as the input</li>
+                    <li>StreamInterface as the output</li>
+                </ul>
+                <pre><code class="hljs">class SayHello
+{
+    /** @var StreamInterface */
+    private $output;
+
+    public function handle(SayHelloCommand $cmd)
+    {
+        return new P\Promise(function ($resolve) use ($cmd) {
+            $this->output->write("Hello {$command->name()}!");
+
+            return $resolve();
+        });
+    }
+}</code></pre>
+            </section>
+            <section>
+                <h2>Somewhere...</h2>
+                <pre><code class="hljs">$handler = new SayHello($res->getBody()); // Use DI, please
+$name = $req->getQueryParams()['name'];
+
+$handler->handle(new SayHelloCommand($name))
+    ->then(function () use ($resolve, $response) {
+        return $resolve($response);
+    });</code></pre>
+
+                <p class="fragment">This is pretty damn boring to test!</p>
+            </section>
+            <section>
+                <h2>Handlers with no return</h2>
+                <pre><code class="hljs">class SayHello
+{
+    /** @var StreamInterface */
+    private $output;
+
+    public function handle(SayHelloCommand $cmd)
+    {
+        $this->output->write("Hello {$command->name()}!");
+    }
+}
+
+$handler->handle(...)->then(...); // ????</code></pre>
+            </section>
+        </section>
+
+        <section id="transitions">
+            <section>
+                <h2>Events!</h2>
+                <p>
+                    Be agnostic :)
+                </p>
+            </section>
+            <section>
+                <pre><code class="hljs">class SayHello
+{
+    /** @var StreamInterface */
+    private $output;
+
+    public function handle(SayHelloCommand $command)
+    {
+        $this->output->write("Hello {$command->name()}!");
+
+        emitter()->emit(
+            SayHelloCommandExecuted::class,
+            [$command->name()]
+        );
+    }
+}
+
+$handler->handle(...)->then(...); // ????</code></pre>
+            </section>
+            <section>
+                <h2>
+                    Beautiful!
+                </h2>
+                <p>
+                    Now we have events, we can react to them!
+                </p>
+                <pre><code class="hljs">emitter()->on(SayHelloCommandExecuted::class,['logExecution']);
+
+emitter()->on(SayHelloCommandExecuted::class,['storeMetrics']);
+
+emitter()->on(SayHelloCommandExecuted::class,['other...']);</code></pre>
+                <br><p class="fragment">Not so fast!</p>
+            </section>
+            <section>
+                <h2>
+                    What if...
+                </h2>
+                <pre><code class="hljs">emitter()->on(SayHelloCommandExecuted::class, ['storeMetrics']);
+
+function storeMetrics(SayHelloCommandExecuted $event)
+{
+    try {
+        // magic thing to store the metrics
+    } catch (TemporaryIssueException $e) {
+        emitter()->emit(
+            SayHelloCommandExecuted::class,
+            [$event]
+        ); // Emmit again, so it tries again. Right?
+    }
+}</code></pre>
+            </section>
+            <section>
+                <h2>React to events, act through commands</h2>
+            </section>
+            <section>
+                <h2>
+                    Act through commands
+                </h2>
+                <pre><code class="hljs">emitter()->on(
+    SayHelloCommandExecuted::class,
+    'onSayHelloExecuted'
+);
+
+function onSayHelloExecuted(SayHelloCommandExecuted $event)
+{
+    emitter()->emit(LogExecutionCommand::class, [$event]);
+    emitter()->emit(StoreMetricsCommand::class, [$event]);
+    emitter()->emit(OtherStuffCommand::class, [$event]);
+}
+</code></pre>
+            </section>
+            <section>
+                <h2>
+                    Actions are isolated now
+                </h2>
+                <pre><code class="hljs">emitter()->on(StoreMetricsCommand::class, ['storeMetrics']);
+
+function storeMetrics(StoreMetricsCommand $event)
+{
+    try {
+        // magic thing to store the metrics
+    } catch (TemporaryIssueException $e) {
+        emitter()->emit(
+            StoreMetricsCommand::class,
+            [$event]
+        ); // Now it is a bit safer :)
+    }
+}</code></pre>
+            </section>
+            <section>
+                <h2>But I need to compose!</h2>
+                <p>
+                    In fact actions are isolated now, but they belong to the same request.
+                    How could we coordinate such thing?
+                </p>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>
+                    We need flows
+                </h2>
+                <p>
+                    As we create independent and self-contained tasks
+                    something is needed to make them work together!
+                </p>
+            </section>
+            <section data-background="#fff">
+                <h2>
+                    Proposition
+                </h2>
+                <img src="SayHelloFlow.png" border="0" width="60%" style="border: 0; background: none; box-shadow: none;">
+            </section>
+            <section>
+                <aside style="float:left;">
+                    <img src="software-integration-patterns.jpg" alt="">
+                </aside>
+                <p>
+                    <strong>Enterprise Integration Patterns</strong>
+                    <br>
+                    <br>
+                    Presents two topologies for Message-Driven architectures:
+                    <ul>
+                        <li>Broker</li>
+                        <li>Mediator</li>
+                    </ul>
+                </p>
+            </section>
+            <section data-background="#fff">
+                <h2>
+                    Broker
+                </h2>
+                <p>
+                    Every command knows the next to be executed
+                </p>
+                <img src="SayHelloBroker.png" border="0" width="90%" style="border: 0; background: none; box-shadow: none;">
+            </section>
+            <section>
+                <h2 style="text-transform: none;">
+                    EnrichRequest
+                </h2>
+                <pre><code class="hljs">function enrichRequest(RequestInterface $req)
+{
+    $uuid = Uuid::uuid4();
+    $name = $req->getServerParams()['name'];
+    $command = new SayHelloCommand($uuid, $name);
+
+    emitter()->emit(SayHelloCommand::class, [$command]);
+}</code></pre>
+            </section>
+            <section>
+                <h2 style="text-transform: none;">
+                    SayHello
+                </h2>
+                <pre><code class="hljs">public function handle(SayHelloCommand $command)
+{
+    $this->output->write("Hello {$command->name()}!");
+
+    $e = emitter();
+    $logRequest = new LogRequestCommand($uuid, /* whatever */);
+    $e->emit(LogRequestCommand::class, [$logRequest]);
+
+    $storeMetrics = new StoreMetricsCommand($uuid, /* whatever */);
+    $e->emit(StoreMetricsCommand::class, [$storeMetrics]);
+
+    $deliverResponse = new DeliverResponseCommand($uuid, /* whatever */);
+    $e->emit(DeliverResponseCommand::class, [$deliverResponse]);
+}</code></pre>
+            </section>
+            <section>
+                <h2>
+                    Looks good
+                </h2>
+                <p>
+                    Once you have such structure you may fail as much as you want,
+                    retry even more and so on.
+                    <br><br>
+                    <strong class="fragment">It couples your commands though...</strong>
+                </p>
+            </section>
+            <section>
+                <h2>
+                    Mediator
+                </h2>
+                <p>
+                    One single process responsible for your flow!
+                    <br>
+                    Adds a bit more complexity, but also makes your commands independent again
+                </p>
+            </section>
+            <section>
+                <h2>
+                    Making our lives easier
+                </h2>
+                <pre><code class="hljs">trait CommandTrait
+{
+    public static function ofId(UuidInterface $uuid): string
+    {
+        return self::class.$uuid->toString();
+    }
+}
+
+class SayHelloCommand
+{
+    use CommandTrait;
+
+    // previous implementation ...
+}</code></pre>
+            </section>
+            <section>
+                <h2>
+                    Suffixed command events
+                </h2>
+                <pre><code class="hljs">$uuid = Uuid::uuid4();
+
+echo SayHelloCommand::ofId($uuid);
+
+// SayHelloCommandf11bbfcc-0095-474e-a8c7-48a363bcb9ee
+</code></pre>
+            </section>
+            <section>
+                <h2>Mediator</h2>
+                <pre><code class="hljs">class SayHelloFlow
+{
+    public function __construct()
+    {
+        $this->uuid = Uuid::uuid();
+        $e = emitter();
+
+        $e->on(RequestReceived::class, [$this, 'onRequest']);
+    }
+//...</code></pre>
+            </section>
+            <section>
+                <pre><code class="hljs">public function onRequest(RequestReceived $req)
+{
+    // ignore duplicated requests
+    if ($this->wasRequestAlreadyReceived()) return;
+
+    $e = emitter();
+    // Suffixed callback event: onSayHelloExecuted
+    $e->on(SayHelloCommandExecuted::ofId($uuid), [$this, 'onSayHelloExecuted']);
+
+    $e->emit(
+        // Suffixed command: only this instance dispatches it
+        SayHelloCommand::ofId($uuid),
+        [new SayHelloCommand($req->name())]
+    );
+}</code></pre>
+            </section>
+            <section>
+                <h2>Gets every time more complex!</h2>
+                <ul>
+                    <li class="fragment">Don't forget about the promises</li>
+                    <li class="fragment">Use commands and events when necessary</li>
+                    <li class="fragment">Keep testability in mind</li>
+                    <li class="fragment">And your deadlines ;)</li>
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Wrap up!</h2>
+                <div style="display: flex;">
+                    <ul>
+                        <li class="fragment">
+                            PHP + Event Loop
+                        </li>
+                        <li class="fragment">
+                            Extensible Event Loop
+                        </li>
+                        <li class="fragment">
+                            Has competitors
+                        </li>
+                        <li class="fragment">
+                            PHP <strong>is blocking</strong>, be careful
+                        </li>
+                        <li class="fragment">
+                            Callbacks sucks
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="fragment">
+                            Use promises then
+                        </li>
+                        <li class="fragment">
+                            Decouple to commands
+                        </li>
+                        <li class="fragment">
+                            Promises can also suck!
+                        </li>
+                        <li class="fragment">
+                            Use events
+                        </li>
+                    </ul>
+                </div>
+                <p class="fragment">
+                    <strong>Take proper care of your events</strong>
+                </p>
+            </section>
+            <section>
+                <h2>
+                    Final thoughts
+                </h2>
+                <p>
+                    This obviously don't apply only to <strong>React PHP</strong><br>
+                    But of course you can now write shiny programs with it
+                </p>
+            </section>
+            <section>
+                <blockquote>
+                    &ldquo;Knowledge is knowing that a tomato is a fruit, wisdom is not putting it in a fruit salad.&rdquo;
+                    - Miles Kington
+                </blockquote>
+                <br>
+
+                <h2 class="fragment">
+                    Thank you!
+                </h2>
+            </section>
+        </section>
+    </div>
+
+</div>
+
+<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
+<script src="node_modules/reveal.js/js/reveal.js"></script>
+
+<script>
+
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'node_modules/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'node_modules/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'node_modules/reveal.js/plugin/search/search.js', async: true },
+            { src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js', async: true },
+            { src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
