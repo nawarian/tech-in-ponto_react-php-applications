@@ -13,7 +13,7 @@ $server = new Server(function (ServerRequestInterface $request) {
     return new Response(
         200,
         ['Content-Type' => 'text/html'],
-        '<h1>HALLO WELT!</h1>'
+        '<h1>Hello World!</h1>'
     );
 });
 

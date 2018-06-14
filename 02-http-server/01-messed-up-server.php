@@ -16,7 +16,7 @@ Server: MyReactPHPServer
 Content-Type: text/html
 Connection: Closed
 
-<h1>HALLO WELT!</h1>
+<h1>Hello World!</h1>
 HTTP;
 
     $connection->end($httpResponse);

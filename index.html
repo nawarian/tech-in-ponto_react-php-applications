@@ -353,7 +353,7 @@ public function __invoke(Request $req)
     public function handle(SayHelloCommand $cmd)
     {
         return new P\Promise(function ($resolve) use ($cmd) {
-            $this->output->write("Hello {$command->name()}!");
+            $this->output->write("Hello {$cmd->name()}!");
 
             return $resolve();
         });
@@ -381,7 +381,7 @@ $handler->handle(new SayHelloCommand($name))
 
     public function handle(SayHelloCommand $cmd)
     {
-        $this->output->write("Hello {$command->name()}!");
+        $this->output->write("Hello {$cmd->name()}!");
     }
 }
 
@@ -623,16 +623,17 @@ echo SayHelloCommand::ofId($uuid);
 {
     public function __construct()
     {
-        $this->uuid = Uuid::uuid();
-        $e = emitter();
-
-        $e->on(RequestReceived::class, [$this, 'onRequest']);
+        emitter()->on(
+            RequestReceived::class,
+            [$this, 'onRequest']
+        );
     }
 //...</code></pre>
             </section>
             <section>
                 <pre><code class="hljs">public function onRequest(RequestReceived $req)
 {
+    $uuid = Uuid::uuid4();
     // ignore duplicated requests
     if ($this->wasRequestAlreadyReceived()) return;
 

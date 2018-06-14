@@ -19,7 +19,7 @@ class Application
 
     private function handleRequest(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $response->getBody()->write('<h1>Hallo Welt!</h1>');
+        $response->getBody()->write('<h1>Hello World!</h1>');
 
         return $response;
     }
